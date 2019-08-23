@@ -22,41 +22,35 @@ services:
     volumes:
       - ./:/var/www
     links:
-      - mysql
+      - pgsql
+      - clickhouse-client
     depends_on:
-      - mysql
+      - pgsql
+      - clickhouse-client
     container_name: logs_php_fpm
 
-  mysql:
+  pgsql:
     build:
       context: .
-      dockerfile: deployment/local/docker/mysql/Dockerfile
+      dockerfile: deployment/local/docker/pgsql/Dockerfile
     ports:
-      - "${DOCKER_MYSQL_PORT}:3306"
+      - "${DOCKER_PGSQL_PORT}:5432"
     environment:
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-      - MYSQL_DATABASE=${DB_DATABASE}
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
-      - ./persistent_data/mysql:/var/lib/mysql
-
-  mysql_testing:
-    build:
-      context: .
-      dockerfile: deployment/local/docker/mysql_testing/Dockerfile
-    ports:
-      - "${DOCKER_MYSQL_TESTING_PORT}:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD={DB_TESTING_PASSWORD}
-      - MYSQL_DATABASE={DB_TESTING_DATABASE}
-    volumes:
-      - ./persistent_data/mysql_testing:/var/lib/mysql
+      - ./persistent_data/pgsql:/var/lib/postgresql/data
 
   clickhouse-server:
     build:
       context: .
-      dockerfile: deployment/docker/clickhouse-server/Dockerfile
+      dockerfile: deployment/local/docker/clickhouse-server/Dockerfile
     ports:
       - "${DOCKER_CLICKHOUSE_SERVER_PORT}:8123"
+    environment:
+      - CLICKHOUSE_USER=${DB_CLICKHOUSE_USERNAME}
+      - CLICKHOSUE_PASSWORD=${DB_CLICKHOUSE_PASSWORD}
     volumes:
       - ./persistent_data/clickhouse-server:/var/lib/clickhouse
     container_name: logs_clickhouse_server
@@ -64,7 +58,7 @@ services:
   clickhouse-client:
     build:
       context: .
-      dockerfile: deployment/docker/clickhouse-client/Dockerfile
+      dockerfile: deployment/local/docker/clickhouse-client/Dockerfile
     ports:
       - "${DOCKER_CLICKHOUSE_CLIENT_PORT}:9000"
     volumes:

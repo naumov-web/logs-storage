@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!--
+  NOTE: User and query level settings are set up in "users.xml" file.
+-->
+<yandex>
+    <host>clickhouse-server</host>
+    <port>8123</port>
+</yandex>
