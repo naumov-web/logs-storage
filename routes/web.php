@@ -17,3 +17,9 @@ Route::get('/', function () {
 
 Route::get('/login', 'Auth\LoginController@form');
 Route::post('/login', 'Auth\LoginController@login')->name('login');
+
+Route::namespace('Web')->middleware('auth')->group(function () {
+
+    Route::get('/projects', 'ProjectsController@index')->name('projects.list');
+
+});

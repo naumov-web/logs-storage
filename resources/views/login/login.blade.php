@@ -7,6 +7,8 @@
     <div class="login-page-content">
         <h1>Авторизация</h1>
         <form action="{{ route('login') }}" method="POST" class="login-form">
+            @csrf
+            @include('flash::message')
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" required id="email" name="email" class="form-control" />
