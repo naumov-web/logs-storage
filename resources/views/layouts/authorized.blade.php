@@ -14,10 +14,18 @@
               type="text/css" />
     </head>
     <body>
-        <div class="menu">
-
-        </div>
-        <div class="container not-authorized-container">
+        <header class="container">
+            <h1>Система сбора и хранения логов</h1>
+            <nav class="menu btn-group" role="group" aria-label="Nav menu">
+                <a href="{{ route('projects.list') }}" class="btn btn-secondary">
+                    Проекты
+                </a>
+                <a href="{{ route('statistic.list') }}" class="btn btn-secondary">
+                    Статистика
+                </a>
+            </nav>
+        </header>
+        <div class="container authorized-container">
             @yield('content')
         </div>
     </body>

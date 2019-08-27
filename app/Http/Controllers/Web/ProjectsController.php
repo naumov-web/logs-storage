@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Web;
 
+use Illuminate\View\View;
+
 /**
  * Class ProjectsController
  * @package App\Http\Controllers\Web
@@ -9,14 +11,24 @@ namespace App\Http\Controllers\Web;
 class ProjectsController extends AbstractAccountController
 {
 
-    public function index()
+    /**
+     * Render projects list
+     *
+     * @return View
+     */
+    public function index() : View
     {
-
+        return view('projects.index');
     }
 
-    public function addForm()
+    /**
+     * Render form for addition of project
+     *
+     * @return View
+     */
+    public function addForm() : View
     {
-
+        return view('projects.form');
     }
 
 }
