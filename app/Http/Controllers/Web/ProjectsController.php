@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Services\ProjectsService;
 use Illuminate\View\View;
 
 /**
@@ -10,6 +11,21 @@ use Illuminate\View\View;
  */
 class ProjectsController extends AbstractAccountController
 {
+
+    /**
+     * Projects service instance
+     * @var ProjectsService
+     */
+    protected $projects_service;
+
+    /**
+     * ProjectsController constructor.
+     * @param ProjectsService $projects_service
+     */
+    public function __construct(ProjectsService $projects_service)
+    {
+        $this->projects_service = $projects_service;
+    }
 
     /**
      * Render projects list
