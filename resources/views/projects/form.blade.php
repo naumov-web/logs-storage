@@ -14,6 +14,14 @@
                 <input type="text" required id="name" name="name" class="form-control" />
             </div>
             <div class="form-group">
+                <label for="site_url">URL-адрес проекта:</label>
+                <input type="text" id="site_url" name="site_url" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="api_key">API-ключ проекта:</label>
+                <textarea id="api_key" name="api_key" readonly class="form-control"></textarea>
+            </div>
+            <div class="form-group">
                 <button type="submit" class="btn btn-success">
                     Сохранить
                 </button>

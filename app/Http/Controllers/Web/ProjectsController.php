@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Requests\Projects\CreateProjectRequest;
 use App\Services\ProjectsService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 /**
@@ -45,6 +47,21 @@ class ProjectsController extends AbstractAccountController
     public function addForm() : View
     {
         return view('projects.form');
+    }
+
+    /**
+     * Create new project
+     *
+     * @param CreateProjectRequest $request
+     * @return RedirectResponse
+     */
+    public function add(CreateProjectRequest $request) : RedirectResponse
+    {
+        $data = $request->all();
+
+        $this->projects_service->store($data);
+
+        return redirect(route('projects.list'));
     }
 
 }
