@@ -41,6 +41,21 @@ abstract class AbstractRepository
     }
 
     /**
+     * Update simple model
+     *
+     * @param Model $model
+     * @param array $data
+     * @return Model
+     */
+    public function update(Model $model, array $data) : Model
+    {
+        $model->fill($data);
+        $model->save();
+
+        return $model;
+    }
+
+    /**
      * Get items
      *
      * @param array $data

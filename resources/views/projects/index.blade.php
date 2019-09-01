@@ -36,7 +36,7 @@
                                 {{ $item->site_url }}
                             </td>
                             <td>
-                                <a href="" class="btn btn-warning">
+                                <a href="{{ route('projects.update-form', ['project' => $item->id]) }}" class="btn btn-warning">
                                     Редактировать
                                 </a>
                             </td>

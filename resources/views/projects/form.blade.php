@@ -11,15 +11,31 @@
             @csrf
             <div class="form-group">
                 <label for="name">Наименование проекта:</label>
-                <input type="text" required id="name" name="name" class="form-control" />
+                <input type="text"
+                       required
+                       id="name"
+                       name="name"
+                       class="form-control"
+                       value="{{ $model ?? null ? $model->name : '' }}"
+                />
             </div>
             <div class="form-group">
                 <label for="site_url">URL-адрес проекта:</label>
-                <input type="text" id="site_url" name="site_url" class="form-control" />
+                <input type="text"
+                       id="site_url"
+                       name="site_url"
+                       class="form-control"
+                       value="{{ $model ?? null ? $model->site_url : '' }}"
+                />
             </div>
             <div class="form-group">
                 <label for="api_key">API-ключ проекта:</label>
-                <textarea id="api_key" name="api_key" readonly class="form-control"></textarea>
+                <textarea
+                    id="api_key"
+                    name="api_key"
+                    readonly
+                    class="form-control"
+                >{{ $model ?? null ? $model->api_key : '' }}</textarea>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-success">

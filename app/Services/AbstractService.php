@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\AbstractRepository;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 /**
  * Class AbstractService
@@ -26,9 +27,7 @@ abstract class AbstractService
      */
     public function store(array $data) : Model
     {
-        $repository = $this->getRepository();
-
-        return $repository->store($data);
+        return $this->getRepository()->store($data);
     }
 
     /**
@@ -39,8 +38,32 @@ abstract class AbstractService
      */
     public function index(array $data) : array
     {
-        $repository = $this->getRepository();
+        return $this->getRepository()->index($data);
+    }
 
-        return $repository->index($data);
+    /**
+     * Show one model
+     *
+     * @param Model $model
+     * @return Model
+     */
+    public function show(Model $model) : Model
+    {
+        return $model;
+    }
+
+    /**
+     * Default implementation of updating of data to database
+     *
+     * @param Model $model
+     * @param array $data
+     * @return Model
+     */
+    public function update(Model $model, array $data) : Model
+    {
+        return $this->getRepository()->update(
+            $model,
+            Arr::except($data, ['api_key'])
+        );
     }
 }

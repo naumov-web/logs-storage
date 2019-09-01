@@ -6,6 +6,8 @@ use App\Helpers\DefaultRequestValues;
 use App\Helpers\PaginationValues;
 use App\Http\Requests\ListAllRequest;
 use App\Http\Requests\Projects\CreateProjectRequest;
+use App\Http\Requests\Projects\UpdateProjectRequest;
+use App\Models\Project;
 use App\Services\ProjectsService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -96,7 +98,32 @@ class ProjectsController extends AbstractAccountController
 
         $this->projects_service->store($data);
 
-        return redirect(route('projects.list'));
+        return redirect(route($this->getListRouteName()));
+    }
+
+    /**
+     * Render form for updating of project
+     *
+     * @param Project $project
+     * @return View
+     */
+    public function updateForm(Project $project) : View
+    {
+        return view('projects.form', [
+            'model' => $this->projects_service->show($project)
+        ]);
+    }
+
+    /**
+     * @param Project $project
+     * @param UpdateProjectRequest $request
+     * @return RedirectResponse
+     */
+    public function update(Project $project, UpdateProjectRequest $request) : RedirectResponse
+    {
+        $this->projects_service->update($project, $request->all());
+
+        return redirect(route($this->getListRouteName()));
     }
 
 }
