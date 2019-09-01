@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Helpers\DefaultRequestValues;
+use App\Helpers\PaginationValues;
+use App\Http\Requests\ListAllRequest;
 use App\Http\Requests\Projects\CreateProjectRequest;
 use App\Services\ProjectsService;
 use Illuminate\Http\RedirectResponse;
@@ -13,6 +16,14 @@ use Illuminate\View\View;
  */
 class ProjectsController extends AbstractAccountController
 {
+
+    use DefaultRequestValues, PaginationValues;
+
+    /**
+     * List route name
+     * @var string
+     */
+    public const LIST_ROUTE_NAME = 'projects.list';
 
     /**
      * Projects service instance
@@ -30,13 +41,37 @@ class ProjectsController extends AbstractAccountController
     }
 
     /**
+     * Get list route name
+     *
+     * @return string
+     */
+    protected function getListRouteName(): string
+    {
+        return self::LIST_ROUTE_NAME;
+    }
+
+    /**
      * Render projects list
      *
+     * @param ListAllRequest $request
      * @return View
      */
-    public function index() : View
+    public function index(ListAllRequest $request) : View
     {
-        return view('projects.index');
+        $result = $this->projects_service->index($request->all());
+        $request_values = $this->getRequestValues();
+
+        return view('projects.index', array_merge(
+            $request_values,
+            [
+                'pages_count' => $this->getPagesCount(
+                    $request_values['limit'],
+                    $result['count']
+                ),
+                'items' => $result['items'],
+                'list_route_name' => $this->getListRouteName(),
+            ]
+        ));
     }
 
     /**

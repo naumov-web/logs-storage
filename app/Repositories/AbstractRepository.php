@@ -2,7 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Repositories\Traits\ApplyPagination;
+use App\Repositories\Traits\ApplySimpleSorting;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 
 /**
  * Class AbstractRepository
@@ -10,6 +13,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 abstract class AbstractRepository
 {
+
+    use ApplyPagination, ApplySimpleSorting;
+
     /**
      * Get model class
      *
@@ -32,6 +38,32 @@ abstract class AbstractRepository
         $model->fresh();
 
         return $model;
+    }
+
+    /**
+     * Get items
+     *
+     * @param array $data
+     * @return array
+     */
+    public function index(array $data) : array
+    {
+        $class = $this->getModelClass();
+
+        /**
+         * @var Builder
+         */
+        $query = $class::query();
+
+        $count = $query->count();
+
+        $this->applyPagination($query, $data);
+        $this->applySimpleSorting($query, $data);
+
+        return [
+            'items' => $query->get(),
+            'count' => $count,
+        ];
     }
 
 }

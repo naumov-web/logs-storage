@@ -30,4 +30,17 @@ abstract class AbstractService
 
         return $repository->store($data);
     }
+
+    /**
+     * Get models list
+     *
+     * @param array $data
+     * @return array
+     */
+    public function index(array $data) : array
+    {
+        $repository = $this->getRepository();
+
+        return $repository->index($data);
+    }
 }

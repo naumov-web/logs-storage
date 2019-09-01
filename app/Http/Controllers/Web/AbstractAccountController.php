@@ -11,4 +11,10 @@ use App\Http\Controllers\Controller;
 abstract class AbstractAccountController extends Controller
 {
 
+    /**
+     * Get route name for list of items
+     * @return string
+     */
+    protected abstract function getListRouteName() : string;
+
 }

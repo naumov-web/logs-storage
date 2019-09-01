@@ -9,3 +9,11 @@ textarea {
     height: 100px;
     resize: none;
 }
+.add-button-row {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.list-items {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

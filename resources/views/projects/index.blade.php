@@ -8,5 +8,53 @@
                 Добавить
             </a>
         </div>
+        <div class="list-items">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Наименование
+                    </th>
+                    <th>
+                        Сайт
+                    </th>
+                    <th></th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    @foreach($items as $item )
+                        <tr>
+                            <td>
+                                {{ $item->id }}
+                            </td>
+                            <td>
+                                {{ $item->name }}
+                            </td>
+                            <td>
+                                {{ $item->site_url }}
+                            </td>
+                            <td>
+                                <a href="" class="btn btn-warning">
+                                    Редактировать
+                                </a>
+                            </td>
+                            <td>
+                                <a href="" class="btn btn-danger">
+                                    Удалить
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        @include('components.pagination', [
+            'pages_count' => $pages_count,
+            'limit' => $limit,
+            'offset' => $offset,
+            'list_route_name' => $list_route_name,
+        ])
     </div>
 @stop
