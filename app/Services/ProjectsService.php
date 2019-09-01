@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repositories\AbstractRepository;
 use App\Repositories\ProjectsRepository;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 /**
  * Class ProjectsService
@@ -55,5 +56,17 @@ class ProjectsService extends AbstractService
         );
 
         return parent::store($model_data);
+    }
+
+    /**
+     * Update project
+     *
+     * @param Model $model
+     * @param array $data
+     * @return Model
+     */
+    public function update(Model $model, array $data) : Model
+    {
+        return parent::update($model, Arr::except($data, ['api_key']));
     }
 }

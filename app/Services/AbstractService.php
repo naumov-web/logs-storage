@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Repositories\AbstractRepository;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 
 /**
  * Class AbstractService
@@ -63,7 +62,19 @@ abstract class AbstractService
     {
         return $this->getRepository()->update(
             $model,
-            Arr::except($data, ['api_key'])
+            $data
         );
+    }
+
+    /**
+     * Default implementation of deleting of data to database
+     *
+     * @param Model $model
+     * @return bool
+     * @throws \Exception
+     */
+    public function delete(Model $model) : bool
+    {
+        return $this->getRepository()->delete($model);
     }
 }

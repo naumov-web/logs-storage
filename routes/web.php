@@ -25,6 +25,11 @@ Route::namespace('Web')->middleware('auth')->group(function () {
     Route::post('/projects-add', 'ProjectsController@add')->name('projects.add');
     Route::get('/projects/{project}', 'ProjectsController@updateForm')->name('projects.update-form');
     Route::post('/projects/{project}', 'ProjectsController@update')->name('projects.update');
+    /*
+     * Удалять сущность через GET-запрос - это так себе решение.
+     * Но альтернативы еще хуже.
+     */
+    Route::get('/projects/{project}/delete', 'ProjectsController@delete')->name('projects.delete');
 
     Route::get('/statistic', 'StatisticController@index')->name('statistic.list');
 

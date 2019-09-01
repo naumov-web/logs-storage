@@ -41,7 +41,10 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="" class="btn btn-danger">
+                                <a href="{{ route('projects.delete', ['project' => $item->id]) }}"
+                                   onclick="return confirm('Вы уверены, что хотите удалить проект?');"
+                                   class="btn btn-danger"
+                                >
                                     Удалить
                                 </a>
                             </td>
