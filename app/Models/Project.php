@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Project
  * @package App\Models
+ * @property-read int $id
+ * @property string $name
+ * @property string $site_url
+ * @property string $api_key
  */
 class Project extends Model
 {

@@ -18,16 +18,16 @@ class ProjectsService extends AbstractService
      * Projects repository instance
      * @var ProjectsRepository
      */
-    protected $projects_repository;
+    protected $repository;
 
     /**
      * ProjectsService constructor.
      *
-     * @param ProjectsRepository $projects_repository
+     * @param ProjectsRepository $repository
      */
-    public function __construct(ProjectsRepository $projects_repository)
+    public function __construct(ProjectsRepository $repository)
     {
-        $this->projects_repository = $projects_repository;
+        $this->repository = $repository;
     }
 
     /**
@@ -37,7 +37,7 @@ class ProjectsService extends AbstractService
      */
     protected function getRepository(): AbstractRepository
     {
-        return $this->projects_repository;
+        return $this->repository;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Repositories\AbstractRepository;
 use App\Repositories\UsersRepository;
 use Illuminate\Support\Facades\Hash;
 
@@ -16,15 +17,25 @@ class UsersService extends AbstractService
      * Users repository instance
      * @var UsersRepository
      */
-    protected $users_repository;
+    protected $repository;
 
     /**
      * UsersService constructor.
-     * @param UsersRepository $users_repository
+     * @param UsersRepository $repository
      */
-    public function __construct(UsersRepository $users_repository)
+    public function __construct(UsersRepository $repository)
     {
-        $this->users_repository = $users_repository;
+        $this->repository = $repository;
+    }
+
+    /**
+     * Get repository instance
+     *
+     * @return AbstractRepository
+     */
+    protected function getRepository(): AbstractRepository
+    {
+        return $this->repository;
     }
 
     /**
