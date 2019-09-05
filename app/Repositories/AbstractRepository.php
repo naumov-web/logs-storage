@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Repositories\Traits\ApplyPagination;
+use App\Repositories\Traits\ApplySimpleFilters;
 use App\Repositories\Traits\ApplySimpleSorting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
@@ -14,14 +15,14 @@ use Illuminate\Database\Query\Builder;
 abstract class AbstractRepository
 {
 
-    use ApplyPagination, ApplySimpleSorting;
+    use ApplyPagination, ApplySimpleSorting, ApplySimpleFilters;
 
     /**
      * Get model class
      *
      * @return string
      */
-    protected abstract function getModelClass() : string;
+    abstract protected function getModelClass() : string;
 
     /**
      * Store simple model
@@ -69,6 +70,8 @@ abstract class AbstractRepository
          * @var Builder
          */
         $query = $class::query();
+
+        $this->applySimpleFilters($query, $data);
 
         $count = $query->count();
 

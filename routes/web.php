@@ -31,6 +31,13 @@ Route::namespace('Web')->middleware('auth')->group(function () {
      */
     Route::get('/projects/{project}/delete', 'ProjectsController@delete')->name('projects.delete');
 
+    Route::get('/projects/{project}/event-types', 'ProjectEventTypesController@index')
+        ->name('project.event-types.list');
+    Route::get('/projects/{project}/event-types-add', 'ProjectEventTypesController@addForm')
+        ->name('project.event-types.add-form');
+    Route::post('/projects/{project}/event-types-add', 'ProjectEventTypesController@add')
+        ->name('project.event-types.add');
+
     Route::get('/statistic', 'StatisticController@index')->name('statistic.list');
 
 });

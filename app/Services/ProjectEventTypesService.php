@@ -46,4 +46,16 @@ class ProjectEventTypesService extends AbstractService
     {
         return parent::store(array_merge(['project_id' => $project->id], $data));
     }
+
+    /**
+     * Get all project event types
+     *
+     * @param Project $project
+     * @param array $data
+     * @return array
+     */
+    public function get(Project $project, array $data) : array
+    {
+        return parent::index(array_merge(['project_id' => $project->id], $data));
+    }
 }

@@ -16,7 +16,7 @@ abstract class AbstractService
      *
      * @return AbstractRepository
      */
-    protected abstract function getRepository() : AbstractRepository;
+    abstract protected function getRepository() : AbstractRepository;
 
     /**
      * Default implementation of storing of data to database

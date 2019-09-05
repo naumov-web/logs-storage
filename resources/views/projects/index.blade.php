@@ -22,6 +22,7 @@
                     </th>
                     <th></th>
                     <th></th>
+                    <th></th>
                 </thead>
                 <tbody>
                     @foreach($items as $item )
@@ -34,6 +35,11 @@
                             </td>
                             <td>
                                 {{ $item->site_url }}
+                            </td>
+                            <td>
+                                <a href="{{ route('project.event-types.list', ['project' => $item->id]) }}" class="btn btn-primary">
+                                    События проекта
+                                </a>
                             </td>
                             <td>
                                 <a href="{{ route('projects.update-form', ['project' => $item->id]) }}" class="btn btn-warning">

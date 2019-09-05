@@ -31,15 +31,15 @@ class ProjectsController extends AbstractAccountController
      * Projects service instance
      * @var ProjectsService
      */
-    protected $projects_service;
+    protected $service;
 
     /**
      * ProjectsController constructor.
-     * @param ProjectsService $projects_service
+     * @param ProjectsService $service
      */
-    public function __construct(ProjectsService $projects_service)
+    public function __construct(ProjectsService $service)
     {
-        $this->projects_service = $projects_service;
+        $this->service = $service;
     }
 
     /**
@@ -60,7 +60,7 @@ class ProjectsController extends AbstractAccountController
      */
     public function index(ListAllRequest $request): View
     {
-        $result = $this->projects_service->index($request->all());
+        $result = $this->service->index($request->all());
         $request_values = $this->getRequestValues();
 
         return view('projects.index', array_merge(
@@ -96,7 +96,7 @@ class ProjectsController extends AbstractAccountController
     {
         $data = $request->all();
 
-        $this->projects_service->store($data);
+        $this->service->store($data);
 
         return redirect(route($this->getListRouteName()));
     }
@@ -110,7 +110,7 @@ class ProjectsController extends AbstractAccountController
     public function updateForm(Project $project): View
     {
         return view('projects.form', [
-            'model' => $this->projects_service->show($project)
+            'model' => $this->service->show($project)
         ]);
     }
 
@@ -123,7 +123,7 @@ class ProjectsController extends AbstractAccountController
      */
     public function update(Project $project, UpdateProjectRequest $request): RedirectResponse
     {
-        $this->projects_service->update($project, $request->all());
+        $this->service->update($project, $request->all());
 
         return redirect(route($this->getListRouteName()));
     }
@@ -137,7 +137,7 @@ class ProjectsController extends AbstractAccountController
      */
     public function delete(Project $project): RedirectResponse
     {
-        $this->projects_service->delete($project);
+        $this->service->delete($project);
 
         return redirect(route($this->getListRouteName()));
     }

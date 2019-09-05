@@ -49,6 +49,6 @@ class UsersService extends AbstractService
         $model_data = $data;
         $model_data['password'] = Hash::make($data['password']);
 
-        return $this->users_repository->store($model_data);
+        return $this->repository->store($model_data);
     }
 }
