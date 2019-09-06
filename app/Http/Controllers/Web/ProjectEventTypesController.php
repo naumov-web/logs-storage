@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Web;
 use App\Helpers\DefaultRequestValues;
 use App\Helpers\PaginationValues;
 use App\Http\Requests\ListAllRequest;
+use App\Http\Requests\ProjectEventTypes\CreateProjectEventTypeRequest;
 use App\Models\Project;
 use App\Services\ProjectEventTypesService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 /**
@@ -51,7 +53,7 @@ class ProjectEventTypesController extends AbstractAccountController
     /**
      * Render project event types list
      *
-     * @param \App\Models\Project $project
+     * @param Project $project
      * @param ListAllRequest $request
      * @return View
      */
@@ -72,5 +74,34 @@ class ProjectEventTypesController extends AbstractAccountController
                 'list_route_name' => $this->getListRouteName(),
             ]
         ));
+    }
+
+    /**
+     * Render form for addition of project event type
+     *
+     * @param Project $project
+     * @return View
+     */
+    public function addForm(Project $project) : View
+    {
+        return view('project-event-types.form', [
+            'project' => $project,
+        ]);
+    }
+
+    /**
+     * Create new project event type
+     *
+     * @param Project $project
+     * @param CreateProjectEventTypeRequest $request
+     * @return RedirectResponse
+     */
+    public function add(Project $project, CreateProjectEventTypeRequest $request) : RedirectResponse
+    {
+        $data = $request->all();
+
+        $this->service->create($project, $data);
+
+        return redirect(route($this->getListRouteName(), ['project' => $project->id]));
     }
 }

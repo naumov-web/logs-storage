@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Projects;
+namespace App\Http\Requests\ProjectEventTypes;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class CreateProjectRequest
- * @package App\Http\Requests\Projects
+ * Class CreateProjectEventTypeRequest
+ * @package App\Http\Requests\ProjectEventTypes
  */
-class CreateProjectRequest extends FormRequest
+class CreateProjectEventTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class CreateProjectRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() : array
+    public function rules()
     {
         return [
             'name' => 'required'
