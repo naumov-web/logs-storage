@@ -5,7 +5,7 @@
         <h2>
             {{ $model ?? null ? 'Редактировать тип события проекта' : 'Добавить тип события проекта' }}
         </h2>
-        <form action="{{ $model ?? null ? route('project.event-types.update', ['project' => $project->id]) : route('project.event-types.add', ['project' => $project->id]) }}"
+        <form action="{{ $model ?? null ? route('project.event-types.update', ['event' => $model->id]) : route('project.event-types.add', ['project' => $project->id]) }}"
               method="POST"
               class="login-form">
             @csrf

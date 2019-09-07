@@ -37,6 +37,10 @@ Route::namespace('Web')->middleware('auth')->group(function () {
         ->name('project.event-types.add-form');
     Route::post('/projects/{project}/event-types-add', 'ProjectEventTypesController@add')
         ->name('project.event-types.add');
+    Route::get('/project-event-types/{event}', 'ProjectEventTypesController@updateForm')
+        ->name('project.event-types.update-form');
+    Route::post('/project-event-types/{event}', 'ProjectEventTypesController@update')
+        ->name('project.event-types.update');
 
     Route::get('/statistic', 'StatisticController@index')->name('statistic.list');
 

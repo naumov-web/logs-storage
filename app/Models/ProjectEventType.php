@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class ProjectEventType
@@ -19,5 +20,15 @@ class ProjectEventType extends Model
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * Get project relation
+     *
+     * @return BelongsTo
+     */
+    public function project() : BelongsTo
+    {
+        return $this->belongsTo(Project::class);
+    }
 
 }
