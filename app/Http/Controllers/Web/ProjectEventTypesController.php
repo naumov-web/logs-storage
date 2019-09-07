@@ -135,4 +135,19 @@ class ProjectEventTypesController extends AbstractAccountController
 
         return redirect(route($this->getListRouteName(), ['project' => $event->project->id]));
     }
+
+    /**
+     * Delete project event type
+     *
+     * @param ProjectEventType $event
+     * @return RedirectResponse
+     * @throws \Exception
+     */
+    public function delete(ProjectEventType $event): RedirectResponse
+    {
+        $project_id = $event->project->id;
+        $this->service->delete($event);
+
+        return redirect(route($this->getListRouteName(), ['project' => $project_id]));
+    }
 }

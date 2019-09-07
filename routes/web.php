@@ -41,6 +41,10 @@ Route::namespace('Web')->middleware('auth')->group(function () {
         ->name('project.event-types.update-form');
     Route::post('/project-event-types/{event}', 'ProjectEventTypesController@update')
         ->name('project.event-types.update');
+    /**
+     * То же самое, что и удаление проекта
+     */
+    Route::get('/project-event-types/{event}/delete', 'ProjectEventTypesController@delete')->name('project.event-types.delete');
 
     Route::get('/statistic', 'StatisticController@index')->name('statistic.list');
 

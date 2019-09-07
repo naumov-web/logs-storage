@@ -28,7 +28,14 @@
                                     Редактировать
                                 </a>
                             </td>
-                            <td></td>
+                            <td>
+                                <a href="{{ route('project.event-types.delete', ['event' => $item->id]) }}"
+                                   onclick="return confirm('Вы уверены, что хотите удалить тип события?');"
+                                   class="btn btn-danger"
+                                >
+                                    Удалить
+                                </a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
