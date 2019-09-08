@@ -91,6 +91,23 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'clickhouse' => [
+            'driver' => 'clickhouse',
+            'servers' => [
+                [
+                    'host' => env('DB_CLICKHOUSE_HOST', 'localhost'),
+                    'port' => env('DB_CLICKHOUSE_PORT', '8123'),
+                    'database' => env('DB_CLICKHOUSE_DATABASE', 'default'),
+                    'username' => env('DB_CLICKHOUSE_USERNAME', 'default'),
+                    'password' => env('DB_CLICKHOUSE_PASSWORD', ''),
+                    'options' => [
+                        'timeout' => 10,
+                        'protocol' => 'http'
+                    ],
+                ],
+            ],
+        ],
+
     ],
 
     /*
