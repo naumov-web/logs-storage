@@ -93,6 +93,9 @@ return [
 
         'clickhouse' => [
             'driver' => 'clickhouse',
+            'default_server' => env('DB_CLICKHOUSE_DEFAULT_SERVER', 'default'),
+            'default_cluster' => env('DB_CLICKHOUSE_DEFAULT_CLUSTER', 'default'),
+            'cluster_name' => env('DB_CLICKHOUSE_CLUSTER_NAME', 'default'),
             'servers' => [
                 [
                     'host' => env('DB_CLICKHOUSE_HOST', 'localhost'),
