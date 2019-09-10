@@ -1,12 +1,30 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+use App\Clickhouse\ClickhouseAdapter;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * Class CreateLogsTable
+ */
 class CreateLogsTable extends Migration
 {
+
+    /**
+     * Clickhouse adapter
+     * @var ClickhouseAdapter
+     */
+    protected $adapter;
+
+    /**
+     * CreateLogsTable constructor.
+     * @throws \Tinderbox\Clickhouse\Exceptions\ClusterException
+     * @throws \Tinderbox\Clickhouse\Exceptions\ServerProviderException
+     */
+    public function __construct()
+    {
+        $this->adapter = new ClickhouseAdapter();
+    }
+
     /**
      * Run the migrations.
      *
@@ -25,7 +43,10 @@ class CreateLogsTable extends Migration
                 data String
             ) ENGINE = MergeTree()
             PARTITION BY toYYYYMM(event_date)
+            ORDER BY event_time
         ';
+
+        $this->adapter->executeRaw($sql);
     }
 
     /**
@@ -35,6 +56,8 @@ class CreateLogsTable extends Migration
      */
     public function down()
     {
-        $sql = 'DROP TABLE logs;';
+        $sql = 'DROP TABLE logs';
+
+        $this->adapter->executeRaw($sql);
     }
 }

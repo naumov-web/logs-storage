@@ -1,0 +1,12 @@
+<yandex>
+    <users>
+        <local_user>
+            <profile>default</profile>
+            <networks>
+                <ip>::/0</ip>
+            </networks>
+            <password_sha256_hex>5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8</password_sha256_hex>
+            <quota>default</quota>
+        </local_user>
+    </users>
+</yandex>

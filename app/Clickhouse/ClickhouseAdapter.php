@@ -4,6 +4,8 @@ namespace App\Clickhouse;
 
 use Tinderbox\Clickhouse\Client;
 use Tinderbox\Clickhouse\Cluster;
+use Tinderbox\Clickhouse\Common\ServerOptions;
+use Tinderbox\Clickhouse\Server;
 use Tinderbox\Clickhouse\ServerProvider;
 
 /**
@@ -12,8 +14,6 @@ use Tinderbox\Clickhouse\ServerProvider;
  */
 class ClickhouseAdapter
 {
-
-    public const SERVER_PREFIX = 'server-';
 
     /**
      * Clickhouse client
@@ -27,19 +27,30 @@ class ClickhouseAdapter
      */
     protected $default_cluster;
 
+    /**
+     * Default server
+     * @var string
+     */
     protected $default_server;
 
     /**
      * ClickhouseAdapter constructor.
      * @throws \Tinderbox\Clickhouse\Exceptions\ClusterException
+     * @throws \Tinderbox\Clickhouse\Exceptions\ServerProviderException
      */
     public function __construct()
     {
-        $config = config('database.clickhouse');
+        $config = config('database.connections.clickhouse');
 
         $servers = [];
         foreach ($config['servers'] as $i => $server) {
-            $servers[self::SERVER_PREFIX . $i] = $server;
+            $servers[$server['host']] = new Server(
+                $server['host'],
+                $server['port'],
+                $server['database'],
+                $server['username'],
+                $server['password']
+            );
         }
 
         $cluster = new Cluster($config['cluster_name'], $servers);
@@ -52,11 +63,18 @@ class ClickhouseAdapter
         $this->default_server = $config['default_server'];
     }
 
-    public function executeRaw(string $query)
+    /**
+     * Execute raw query
+     *
+     * @param string $query
+     * @return void
+     */
+    public function executeRaw(string $query) : void
     {
-        $this->client->read([
-            $query
-        ]);
+        $this->client
+            ->onCluster($this->default_cluster)
+            ->using('clickhouse-server')
+            ->writeOne($query);
     }
 
 }
