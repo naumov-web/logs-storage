@@ -19,4 +19,15 @@ class ProjectsRepository extends AbstractRepository
     {
         return Project::class;
     }
+
+    /**
+     * Get project by access key
+     *
+     * @param string|null $api_key
+     * @return Project
+     */
+    public function getByApiKey(?string $api_key) : ?Project
+    {
+        return Project::where('api_key', $api_key)->first();
+    }
 }
