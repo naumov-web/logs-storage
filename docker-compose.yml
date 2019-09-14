@@ -24,9 +24,11 @@ services:
     links:
       - pgsql
       - clickhouse-client
+      - rabbitmq
     depends_on:
       - pgsql
       - clickhouse-client
+      - rabbitmq
     container_name: logs_php_fpm
 
   pgsql:
@@ -41,6 +43,19 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
       - ./persistent_data/pgsql:/var/lib/postgresql/data
+
+  rabbitmq:
+    build:
+      context: .
+      dockerfile: deployment/local/docker/rabbitmq/Dockerfile
+    ports:
+      - "${DOCKER_RABBITMQ_PORT}:5672"
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=${RABBITMQ_ERLANG_COOKIE}
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST}
+    container_name: logs_rabbitmq
 
   clickhouse-server:
     build:
