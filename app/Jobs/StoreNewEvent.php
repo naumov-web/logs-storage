@@ -22,6 +22,8 @@ class StoreNewEvent implements ShouldQueue
      */
     protected $data;
 
+    protected $service;
+
     /**
      * Create a new job instance.
      *
@@ -40,6 +42,6 @@ class StoreNewEvent implements ShouldQueue
      */
     public function handle()
     {
-        //
+
     }
 }

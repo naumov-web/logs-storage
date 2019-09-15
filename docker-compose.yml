@@ -31,6 +31,16 @@ services:
       - rabbitmq
     container_name: logs_php_fpm
 
+  queue_worker:
+    build:
+      context: .
+      dockerfile: deployment/local/docker/queue_worker/Dockerfile
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - php-fpm
+    container_name: logs_queue_worker
+
   pgsql:
     build:
       context: .

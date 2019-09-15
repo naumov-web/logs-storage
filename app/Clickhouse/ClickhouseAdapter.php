@@ -77,4 +77,16 @@ class ClickhouseAdapter
             ->writeOne($query);
     }
 
+    /**
+     * Insert one row
+     *
+     * @param string $table
+     * @param array $attributes
+     * @return void
+     */
+    public function insert(string $table, array $attributes) : void
+    {
+
+    }
+
 }
