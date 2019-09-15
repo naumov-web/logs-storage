@@ -86,7 +86,39 @@ class ClickhouseAdapter
      */
     public function insert(string $table, array $attributes) : void
     {
+        $sql = 'INSERT INTO ' . $table . '(' .
+            implode(',', array_keys($attributes)) .
+            ') VALUES (';
 
+        $i = 0;
+        foreach ($attributes as $attribute) {
+            if ($i) {
+                $sql .= ',';
+            }
+            $sql .= $this->rawValue($attribute);
+
+            $i++;
+        }
+
+        $sql .= ')';
+
+        $this->executeRaw($sql);
+    }
+
+    /**
+     * Convert mixed value to string
+     *
+     * @param $value
+     * @return string
+     */
+    protected function rawValue($value) : string
+    {
+        if (is_string($value)) {
+            return ('\'' . addslashes($value) . '\'');
+        }
+        else {
+            return $value;
+        }
     }
 
 }

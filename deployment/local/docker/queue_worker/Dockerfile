@@ -14,4 +14,4 @@ RUN apt-get install unzip
 
 RUN curl -sL https://getcomposer.org/installer | php -- --install-dir /usr/bin --filename composer
 
-CMD php artisan queue:work
+CMD php artisan queue:work --tries=1

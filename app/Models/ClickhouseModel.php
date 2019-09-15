@@ -53,7 +53,8 @@ abstract class ClickhouseModel extends Model
         $attributes = $this->getAttributes();
 
         $this->adapter->insert(
-            $this->getTableName()
+            $this->getTableName(),
+            $attributes
         );
 
         return true;

@@ -2,6 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Repositories\EventsRepository;
+use App\Repositories\ProjectsRepository;
+use App\Services\EventsService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -22,6 +25,10 @@ class StoreNewEvent implements ShouldQueue
      */
     protected $data;
 
+    /**
+     * Events service instance
+     * @var EventsService
+     */
     protected $service;
 
     /**
@@ -33,6 +40,10 @@ class StoreNewEvent implements ShouldQueue
     public function __construct(array $data)
     {
         $this->data = $data;
+        $this->service = new EventsService(
+            new EventsRepository(),
+            new ProjectsRepository()
+        );
     }
 
     /**
@@ -42,6 +53,6 @@ class StoreNewEvent implements ShouldQueue
      */
     public function handle()
     {
-
+        $this->service->create($this->data);
     }
 }

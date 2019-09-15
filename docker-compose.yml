@@ -24,6 +24,7 @@ services:
     links:
       - pgsql
       - clickhouse-client
+      - clickhouse-server
       - rabbitmq
     depends_on:
       - pgsql
@@ -39,6 +40,8 @@ services:
       - ./:/var/www
     depends_on:
       - php-fpm
+    links:
+      - clickhouse-server
     container_name: logs_queue_worker
 
   pgsql:
