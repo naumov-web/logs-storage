@@ -13,7 +13,7 @@ class Log extends ClickhouseModel
      * Get table name
      * @return string
      */
-    protected function getTableName(): string
+    public function getTableName(): string
     {
         return 'logs';
     }

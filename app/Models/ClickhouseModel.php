@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Clickhouse\ClickhouseAdapter;
 use Illuminate\Database\Eloquent\Model;
+use Tinderbox\Clickhouse\Exceptions\ClusterException;
+use Tinderbox\Clickhouse\Exceptions\ServerProviderException;
 
 /**
  * Class ClickhouseModel
@@ -28,13 +30,13 @@ abstract class ClickhouseModel extends Model
      * Get table name
      * @return string
      */
-    protected abstract function getTableName() : string;
+    public abstract function getTableName() : string;
 
     /**
      * ClickhouseModel constructor.
      * @param array $attributes
-     * @throws \Tinderbox\Clickhouse\Exceptions\ClusterException
-     * @throws \Tinderbox\Clickhouse\Exceptions\ServerProviderException
+     * @throws ClusterException
+     * @throws ServerProviderException
      */
     public function __construct(array $attributes = [])
     {

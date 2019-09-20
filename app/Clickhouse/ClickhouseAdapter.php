@@ -4,7 +4,9 @@ namespace App\Clickhouse;
 
 use Tinderbox\Clickhouse\Client;
 use Tinderbox\Clickhouse\Cluster;
-use Tinderbox\Clickhouse\Common\ServerOptions;
+use Tinderbox\Clickhouse\Exceptions\ClusterException;
+use Tinderbox\Clickhouse\Exceptions\ServerProviderException;
+use Tinderbox\Clickhouse\Query\Result;
 use Tinderbox\Clickhouse\Server;
 use Tinderbox\Clickhouse\ServerProvider;
 
@@ -35,8 +37,8 @@ class ClickhouseAdapter
 
     /**
      * ClickhouseAdapter constructor.
-     * @throws \Tinderbox\Clickhouse\Exceptions\ClusterException
-     * @throws \Tinderbox\Clickhouse\Exceptions\ServerProviderException
+     * @throws ClusterException
+     * @throws ServerProviderException
      */
     public function __construct()
     {
@@ -73,8 +75,35 @@ class ClickhouseAdapter
     {
         $this->client
             ->onCluster($this->default_cluster)
-            ->using('clickhouse-server')
+            ->using($this->default_server)
             ->writeOne($query);
+    }
+
+    /**
+     * Execute "SELECT" request
+     *
+     * @param string $query
+     * @return array
+     */
+    public function executeSelect(string $query) : array
+    {
+        $result = $this->client
+            ->onCluster($this->default_cluster)
+            ->using($this->default_server)
+            ->readOne($query);
+
+        return $this->toArray($result);
+    }
+
+    /**
+     * Get rows array from query result
+     *
+     * @param Result $query_result
+     * @return array
+     */
+    protected function toArray(Result $query_result) : array
+    {
+        return $query_result->rows;
     }
 
     /**
