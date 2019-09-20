@@ -12,6 +12,10 @@
         <link rel="stylesheet"
               href="/css/authorized.css"
               type="text/css" />
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
     </head>
     <body>
         <header class="container">
@@ -19,6 +23,9 @@
             <nav class="menu btn-group" role="group" aria-label="Nav menu">
                 <a href="{{ route('projects.list') }}" class="btn btn-secondary">
                     Проекты
+                </a>
+                <a href="{{ route('logs.list') }}" class="btn btn-secondary">
+                    Логи событий
                 </a>
                 <a href="{{ route('statistic.list') }}" class="btn btn-secondary">
                     Статистика

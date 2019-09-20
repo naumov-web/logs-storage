@@ -47,5 +47,6 @@ Route::namespace('Web')->middleware('auth')->group(function () {
     Route::get('/project-event-types/{event}/delete', 'ProjectEventTypesController@delete')->name('project.event-types.delete');
 
     Route::get('/statistic', 'StatisticController@index')->name('statistic.list');
+    Route::get('/logs', 'LogsController@index')->name('logs.list');
 
 });
