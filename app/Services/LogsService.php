@@ -4,46 +4,54 @@ namespace App\Services;
 
 use App\Models\Log;
 use App\Repositories\AbstractRepository;
-use App\Repositories\EventsRepository;
+use App\Repositories\LogsRepository;
 use App\Repositories\ProjectsRepository;
 
 /**
- * Class EventsService
+ * Class LogsService
  * @package App\Services
  */
-class EventsService extends AbstractService
+class LogsService extends AbstractService
 {
-    /**
-     * Event repository instance
-     * @var EventsRepository
-     */
-    protected $repository;
 
     /**
-     * Projects repository instance
+     * Logs repository instance
+     * @var LogsRepository
+     */
+    protected $repository;
+    /**
      * @var ProjectsRepository
      */
     protected $projects_repository;
 
     /**
-     * EventsService constructor.
-     * @param EventsRepository $repository
+     * LogsService constructor.
+     * @param LogsRepository $repository
      * @param ProjectsRepository $projects_repository
      */
-    public function __construct(EventsRepository $repository, ProjectsRepository $projects_repository)
+    public function __construct(LogsRepository $repository, ProjectsRepository $projects_repository)
     {
         $this->repository = $repository;
         $this->projects_repository = $projects_repository;
     }
 
     /**
-     * Get repository instance
-     *
-     * @return AbstractRepository
+     * @inheritDoc
      */
     protected function getRepository(): AbstractRepository
     {
         return $this->repository;
+    }
+
+    /**
+     * Get logs records
+     *
+     * @param array $data
+     * @return array
+     */
+    public function index(array $data): array
+    {
+        return $this->getRepository()->index($data);
     }
 
     /**

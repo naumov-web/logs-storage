@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Clickhouse\ClickhouseAdapter;
 use App\Clickhouse\ClickhouseSelectQueryBuilder;
 use App\Models\Log;
+use App\Repositories\Traits\ApplyClickhousePagination;
 use Tinderbox\Clickhouse\Exceptions\ClusterException;
 use Tinderbox\Clickhouse\Exceptions\ServerProviderException;
 
@@ -14,6 +15,8 @@ use Tinderbox\Clickhouse\Exceptions\ServerProviderException;
  */
 class LogsRepository extends AbstractRepository
 {
+
+    use ApplyClickhousePagination;
 
     /**
      * Get logs data
@@ -25,13 +28,27 @@ class LogsRepository extends AbstractRepository
      */
     public function index(array $data) : array
     {
-        $query = new ClickhouseSelectQueryBuilder(null);
+        $model_class = $this->getModelClass();
+        $model = new $model_class();
+
+        $query = new ClickhouseSelectQueryBuilder();
         $query->setAdapter(new ClickhouseAdapter())
-            ->setModel(new ($this->getModelClass()));
+            ->setModel($model);
 
         if ($data['project_id'] ?? null) {
             $query->where('project_id', $data['project_id']);
         }
+
+        $count = $query->count();
+
+        $this->applyClickhousePagination($query, $data);
+
+        $items = $query->get();
+
+        return [
+            'count' => $count,
+            'items' => $items,
+        ];
     }
 
     /**
