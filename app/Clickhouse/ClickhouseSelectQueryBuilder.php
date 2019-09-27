@@ -94,6 +94,7 @@ class ClickhouseSelectQueryBuilder
      */
     public function where(string $field_name, string $value) : ClickhouseSelectQueryBuilder
     {
+
         return $this;
     }
 
@@ -169,8 +170,11 @@ class ClickhouseSelectQueryBuilder
     public function count() : int
     {
         $sql_template = $this->buildRawTemplate();
+        $sql = str_replace(self::FIELDS_VARIABLE_NAME, self::COUNT_FIELDS, $sql_template);
 
-        return 0;
+        $rows = $this->adapter->executeSelect($sql);
+
+        return isset($rows[0][self::COUNT_FIELDS]) ? $rows[0][self::COUNT_FIELDS] : 0;
     }
 
     /**
