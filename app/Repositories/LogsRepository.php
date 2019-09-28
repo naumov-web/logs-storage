@@ -39,6 +39,11 @@ class LogsRepository extends AbstractRepository
             $query->where('project_id', $data['project_id']);
         }
 
+        $query->with([
+            'project',
+            'project_event_type',
+        ]);
+
         $count = $query->count();
 
         $this->applyClickhousePagination($query, $data);

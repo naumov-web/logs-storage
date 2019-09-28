@@ -51,14 +51,20 @@ class QueryCondition
 
         $value = $this->value;
 
+        if (is_string($value)) {
+            $value = '\'' . $value . '\'';
+        }
+
         return str_replace(
             [
                 '{field_name}',
                 '{operation}',
+                '{value}',
             ],
             [
                 $this->field_name,
                 $this->operation,
+                $value,
             ],
             $template
         );

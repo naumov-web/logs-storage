@@ -32,5 +32,29 @@
                 </div>
             </form>
         </div>
+        <div class="list-items">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Тип события</th>
+                        <th>Проект</th>
+                        <th>Id пользователя проекта</th>
+                        <th>Дата события</th>
+                        <th>Время события</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($items as $item)
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>{{ $item['external_user_id'] }}</td>
+                            <td>{{ $item['event_date'] }}</td>
+                            <td>{{ date('H:i:s', strtotime($item['event_time'])) }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 @stop

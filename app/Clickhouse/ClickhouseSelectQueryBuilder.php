@@ -4,6 +4,7 @@
 namespace App\Clickhouse;
 
 use App\Models\ClickhouseModel;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 
 /**
@@ -26,6 +27,12 @@ class ClickhouseSelectQueryBuilder
     const COUNT_FIELDS = 'COUNT()';
 
     /**
+     * Default where condition operation
+     * @var string
+     */
+    const DEFAULT_WHERE_OPERATION = '=';
+
+    /**
      * Clickhouse adapter instance
      * @var ClickhouseAdapter
      */
@@ -42,6 +49,26 @@ class ClickhouseSelectQueryBuilder
      * @var array
      */
     protected $where_conditions = [];
+
+    /**
+     * Relations, which will be added
+     * @var array
+     */
+    protected $with = [];
+
+    /**
+     * Related models
+     *
+     * Structure:
+     * [
+     *      'relation_name' => [
+     *          // Related models
+     *      ]
+     * ]
+     *
+     * @var array
+     */
+    protected $related_models = [];
 
     /**
      * Limit
@@ -94,6 +121,7 @@ class ClickhouseSelectQueryBuilder
      */
     public function where(string $field_name, string $value) : ClickhouseSelectQueryBuilder
     {
+        $this->where_conditions[] = new QueryCondition($field_name, self::DEFAULT_WHERE_OPERATION, $value);
 
         return $this;
     }
@@ -138,6 +166,117 @@ class ClickhouseSelectQueryBuilder
     }
 
     /**
+     * Set relations, which will be added to general model
+     *
+     * @param array $relations
+     * @return ClickhouseSelectQueryBuilder
+     */
+    public function with(array $relations) : ClickhouseSelectQueryBuilder
+    {
+        $this->with = $relations;
+
+        return $this;
+    }
+
+    /**
+     * Load relations
+     *
+     * @param Collection $items
+     * @return void
+     */
+    protected function loadRelations(Collection $items) : void
+    {
+        foreach ($this->with as $relation_name) {
+            $this->related_models[$relation_name] = [];
+
+            $this->loadRelation($items, $relation_name);
+        }
+    }
+
+    /**
+     * Load one relation
+     *
+     * @param Collection $items
+     * @param string $relation_name
+     * @return void
+     */
+    protected function loadRelation(Collection $items, string $relation_name) : void
+    {
+        /**
+         * @var ClickhouseExternalRelation
+         */
+        $relation = $this->model->$relation_name();
+        $field_name = $relation->getFieldName();
+        $class = $relation->getClass();
+
+        $ids = [];
+        foreach ($items as $item) {
+            $id = $item->{$field_name};
+            if ($id) {
+                $ids[] = $id;
+            }
+        }
+
+        if (count($ids) == 0) {
+            return;
+        }
+
+        /**
+         * @var Collection
+         */
+        $related_items = $class::query()->whereIn('id', $ids)->get();
+        $this->related_models[$relation_name] = $related_items->toArray();
+    }
+
+    /**
+     * Distribute related models
+     *
+     * @param Collection $items
+     * @return Collection
+     */
+    protected function distributeRelatedModels(Collection $items) : Collection
+    {
+        foreach ($items as $item) {
+            foreach ($this->with as $relation_name) {
+                $relation = $item->$relation_name();
+                $field = $relation->getFieldName();
+
+                $relation_content = $this->getRelationContent(
+                    $relation_name,
+                    $relation->getType(),
+                    $item->{$field}
+                );
+            }
+        }
+    }
+
+    /**
+     * Get relation content
+     *
+     * @param string $name
+     * @param string $type
+     * @param int $id
+     * @return array|mixed
+     */
+    protected function getRelationContent(string $name, string $type, int $id)
+    {
+        $related_items = $this->related_models[$name];
+        $result = [];
+
+        foreach ($related_items as $related_item) {
+            if ($related_item['id'] == $id) {
+                if ($type === ClickhouseExternalRelation::HAS_ONE) {
+                    return $related_item;
+                } else {
+                    $result[] = $related_item;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Execute select query
      * @return Collection
      */
@@ -159,6 +298,8 @@ class ClickhouseSelectQueryBuilder
 
             $result->add($model);
         }
+
+        $this->loadRelations($result);
 
         return $result;
     }
