@@ -234,10 +234,14 @@ class ClickhouseSelectQueryBuilder
      *
      * @param Collection $items
      * @return Collection
+     * @throws \App\Clickhouse\Exception\RelationNotFoundException
      */
     protected function distributeRelatedModels(Collection $items) : Collection
     {
         foreach ($items as $item) {
+            /**
+             * @var $item ClickhouseModel
+             */
             foreach ($this->with as $relation_name) {
                 /**
                  * @var $relation ClickhouseExternalRelation
@@ -250,6 +254,8 @@ class ClickhouseSelectQueryBuilder
                     $relation->getType(),
                     $item->{$field}
                 );
+
+                $item->setRelationContent($relation_name, $relation_content);
             }
         }
 
@@ -285,6 +291,7 @@ class ClickhouseSelectQueryBuilder
     /**
      * Execute select query
      * @return Collection
+     * @throws \App\Clickhouse\Exception\RelationNotFoundException
      */
     public function get() : Collection
     {

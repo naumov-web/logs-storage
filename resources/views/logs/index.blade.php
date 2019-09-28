@@ -2,6 +2,7 @@
 <?php
 /**
  * @var $projects
+ * @var $items
  */
 ?>
 @section('content')
@@ -44,15 +45,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($items as $item)
+                    <?php foreach($items as $item) { ?>
+                        <?php
+                            $project = $item->getRelationContent('project');
+                            $project_event_type = $item->getRelationContent('project_event_type');
+                        ?>
                         <tr>
-                            <td></td>
-                            <td></td>
+                            <td>{{ $project_event_type ? $project_event_type['name'] : '' }}</td>
+                            <td>{{ $project ? $project['name'] : '' }}</td>
                             <td>{{ $item['external_user_id'] }}</td>
                             <td>{{ $item['event_date'] }}</td>
                             <td>{{ date('H:i:s', strtotime($item['event_time'])) }}</td>
                         </tr>
-                    @endforeach
+                    <?php } ?>
                 </tbody>
             </table>
         </div>

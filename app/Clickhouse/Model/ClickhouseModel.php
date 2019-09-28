@@ -3,6 +3,7 @@
 namespace App\Clickhouse\Model;
 
 use App\Clickhouse\Adapter\ClickhouseAdapter;
+use App\Clickhouse\Exception\RelationNotFoundException;
 use Illuminate\Database\Eloquent\Model;
 use Tinderbox\Clickhouse\Exceptions\ClusterException;
 use Tinderbox\Clickhouse\Exceptions\ServerProviderException;
@@ -25,6 +26,12 @@ abstract class ClickhouseModel extends Model
      * @var ClickhouseAdapter
      */
     protected $adapter;
+
+    /**
+     * Relation contents
+     * @var array
+     */
+    protected $relation_contents = [];
 
     /**
      * Get table name
@@ -73,23 +80,56 @@ abstract class ClickhouseModel extends Model
         $names = [];
 
         foreach ($refl->getMethods() as $method) {
-            if ($this->$method() instanceof ClickhouseExternalRelation) {
-                $names[] = $method;
+            /**
+             * @var $return_type \ReflectionNamedType
+             */
+            $return_type = $method->getReturnType();
+            if (
+                $return_type &&
+                $return_type->getName() === ClickhouseExternalRelation::class
+            ) {
+                $names[] = $method->getName();
             }
         }
 
         return $names;
     }
 
-    public function setRelationContent(string $relation_name, $content)
+    /**
+     * Set relation content
+     *
+     * @param string $relation_name
+     * @param $content
+     * @return void
+     * @throws RelationNotFoundException
+     */
+    public function setRelationContent(string $relation_name, $content) : void
     {
         $relation_names = $this->getRelationNames();
-        
+
+        if (!in_array($relation_name, $relation_names)) {
+            throw new RelationNotFoundException('Relation not found!');
+        }
+
+        $this->relation_contents[$relation_name] = $content;
     }
 
+    /**
+     * Get relation content
+     *
+     * @param string $relation_name
+     * @return mixed|null
+     * @throws RelationNotFoundException
+     */
     public function getRelationContent(string $relation_name)
     {
+        $relation_names = $this->getRelationNames();
 
+        if (!in_array($relation_name, $relation_names)) {
+            throw new RelationNotFoundException('Relation not found!');
+        }
+
+        return isset($this->relation_contents[$relation_name]) ? $this->relation_contents[$relation_name] : null;
     }
 
 }
