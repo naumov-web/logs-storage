@@ -78,6 +78,21 @@ return [
             'sslmode' => 'prefer',
         ],
 
+        'pgsql_testing' => [
+            'driver' => 'pgsql',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_TESTING_HOST', '127.0.0.1'),
+            'port' => env('DB_TESTING_PORT', '5432'),
+            'database' => env('DB_TESTING_DATABASE', 'forge'),
+            'username' => env('DB_TESTING_USERNAME', 'forge'),
+            'password' => env('DB_TESTING_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'schema' => 'public',
+            'sslmode' => 'prefer',
+        ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
@@ -103,6 +118,26 @@ return [
                     'database' => env('DB_CLICKHOUSE_DATABASE', 'default'),
                     'username' => env('DB_CLICKHOUSE_USERNAME', 'default'),
                     'password' => env('DB_CLICKHOUSE_PASSWORD', ''),
+                    'options' => [
+                        'timeout' => 10,
+                        'protocol' => 'http'
+                    ],
+                ],
+            ],
+        ],
+
+        'clickhouse-testing' => [
+            'driver' => 'clickhouse',
+            'default_server' => env('DB_TESTING_CLICKHOUSE_DEFAULT_SERVER', 'default'),
+            'default_cluster' => env('DB_TESTING_CLICKHOUSE_DEFAULT_CLUSTER', 'default'),
+            'cluster_name' => env('DB_TESTING_TESTING_CLICKHOUSE_CLUSTER_NAME', 'default'),
+            'servers' => [
+                [
+                    'host' => env('DB_TESTING_CLICKHOUSE_HOST', 'localhost'),
+                    'port' => env('DB_TESTING_CLICKHOUSE_PORT', '8123'),
+                    'database' => env('DB_TESTING_CLICKHOUSE_DATABASE', 'default'),
+                    'username' => env('DB_TESTING_CLICKHOUSE_USERNAME', 'default'),
+                    'password' => env('DB_TESTING_CLICKHOUSE_PASSWORD', ''),
                     'options' => [
                         'timeout' => 10,
                         'protocol' => 'http'
