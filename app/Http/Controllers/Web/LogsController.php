@@ -24,7 +24,7 @@ class LogsController extends AbstractAccountController
      * List route name
      * @var string
      */
-    public const LIST_ROUTE_NAME = 'projects.list';
+    public const LIST_ROUTE_NAME = 'logs.list';
 
     /**
      * Projects service instance
@@ -68,14 +68,26 @@ class LogsController extends AbstractAccountController
     public function index(GetLogsListRequest $request) : View
     {
         $data = $request->all();
-        $projects = $this->projects_service->index([]);
+        $request_values = $this->getRequestValues();
+        $custom_request_data = $request->only(['project_id']);
 
+        $projects = $this->projects_service->index([]);
         $logs = $this->logs_service->index($data);
 
-        return view('logs.index', [
-            'projects' => $projects['items'],
-            'items' => $logs['items'],
-            'count' => $logs['count'],
-        ]);
+        return view('logs.index',
+            array_merge(
+                $request_values,
+                [
+                    'projects' => $projects['items'],
+                    'items' => $logs['items'],
+                    'list_route_name' => $this->getListRouteName(),
+                    'pages_count' => $this->getPagesCount(
+                        $request_values['limit'],
+                        $logs['count']
+                    ),
+                    'custom_request_data' => $custom_request_data,
+                ]
+            )
+        );
     }
 }

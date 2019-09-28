@@ -49,11 +49,7 @@ class QueryCondition
     {
         $template = '({field_name} {operation} {value})';
 
-        $value = $this->value;
-
-        if (is_string($value)) {
-            $value = '\'' . $value . '\'';
-        }
+        $value = $this->transformValue($this->value);
 
         return str_replace(
             [
@@ -68,6 +64,24 @@ class QueryCondition
             ],
             $template
         );
+    }
+
+    /**
+     * Transform value for SQL query
+     *
+     * @param $value
+     * @return mixed
+     */
+    protected function transformValue($value)
+    {
+        if (is_numeric($value)) {
+            return $value;
+        }
+        if (is_bool($value)) {
+            return $value;
+        }
+
+        return '\'' . $value . '\'';
     }
 
 }

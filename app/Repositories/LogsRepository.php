@@ -25,6 +25,7 @@ class LogsRepository extends AbstractRepository
      * @return array
      * @throws ClusterException
      * @throws ServerProviderException
+     * @throws \App\Clickhouse\Exception\RelationNotFoundException
      */
     public function index(array $data) : array
     {

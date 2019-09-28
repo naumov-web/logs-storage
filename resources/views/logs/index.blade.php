@@ -61,5 +61,12 @@
                 </tbody>
             </table>
         </div>
+        @include('components.pagination', [
+            'pages_count' => $pages_count,
+            'limit' => $limit,
+            'offset' => $offset,
+            'list_route_name' => $list_route_name,
+            'custom_request_data' => isset($custom_request_data) ? $custom_request_data : []
+        ])
     </div>
 @stop

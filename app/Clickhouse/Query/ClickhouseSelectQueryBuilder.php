@@ -324,7 +324,7 @@ class ClickhouseSelectQueryBuilder
      */
     public function count() : int
     {
-        $sql_template = $this->buildRawTemplate();
+        $sql_template = $this->buildRawTemplate($use_limit = false);
         $sql = str_replace(self::FIELDS_VARIABLE_NAME, self::COUNT_FIELDS, $sql_template);
 
         $rows = $this->adapter->executeSelect($sql);
@@ -345,20 +345,47 @@ class ClickhouseSelectQueryBuilder
 
     /**
      * Build raw sql template
+     * @param bool $use_limit
      * @return string
      */
-    protected function buildRawTemplate() : string
+    protected function buildRawTemplate(bool $use_limit = true) : string
     {
         $sql = 'SELECT ' . self::FIELDS_VARIABLE_NAME . ' FROM ' . $this->model->getTableName();
+        $sql = $this->addWhereConditions($sql);
 
-        if ($this->limit) {
-            $sql .= (' LIMIT ' . $this->limit);
-        }
-        if ($this->offset) {
-            $sql .= (' OFFSET ' . $this->offset);
+        if ($use_limit) {
+            if ($this->limit) {
+                $sql .= (' LIMIT ' . $this->limit);
+            }
+            if ($this->offset) {
+                $sql .= (' OFFSET ' . $this->offset);
+            }
         }
 
         return $sql;
+    }
+
+    /**
+     * Add "WHERE" conditions string
+     *
+     * @param string $sql
+     * @return string
+     */
+    protected function addWhereConditions(string $sql) : string
+    {
+        $result = $sql;
+
+        if (count($this->where_conditions) > 0) {
+            $conditions = [];
+
+            foreach ($this->where_conditions as $where_condition) {
+                $conditions[] = $where_condition->toSql();
+            }
+
+            $result .= (' WHERE ' . implode(' AND ', $conditions));
+        }
+
+        return $result;
     }
 
 }
