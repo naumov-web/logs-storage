@@ -27,7 +27,7 @@
                 <a href="{{ route('logs.list') }}" class="btn btn-secondary">
                     Логи событий
                 </a>
-                <a href="{{ route('statistic.list') }}" class="btn btn-secondary">
+                <a href="{{ route('statistic.show') }}" class="btn btn-secondary">
                     Статистика
                 </a>
             </nav>
