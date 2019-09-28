@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Traits;
 
-use App\Clickhouse\ClickhouseSelectQueryBuilder;
+use App\Clickhouse\Query\ClickhouseSelectQueryBuilder;
 
 /**
  * Trait ApplyClickhousePagination
@@ -17,7 +17,11 @@ trait ApplyClickhousePagination
      * @param array $params
      * @return ClickhouseSelectQueryBuilder
      */
-    public function applyClickhousePagination(ClickhouseSelectQueryBuilder $query, array $params) : ClickhouseSelectQueryBuilder
+    public function applyClickhousePagination
+        (
+            ClickhouseSelectQueryBuilder $query,
+            array $params
+        ) : ClickhouseSelectQueryBuilder
     {
         $default_pagination = config('defaults.pagination');
         $merged_params = array_merge(

@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Clickhouse\ClickhouseAdapter;
-use App\Clickhouse\ClickhouseSelectQueryBuilder;
+use App\Clickhouse\Adapter\ClickhouseAdapter;
+use App\Clickhouse\Query\ClickhouseSelectQueryBuilder;
 use App\Models\Log;
 use App\Repositories\Traits\ApplyClickhousePagination;
 use Tinderbox\Clickhouse\Exceptions\ClusterException;

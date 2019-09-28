@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Clickhouse\Model;
 
-use App\Clickhouse\ClickhouseAdapter;
+use App\Clickhouse\Adapter\ClickhouseAdapter;
 use Illuminate\Database\Eloquent\Model;
 use Tinderbox\Clickhouse\Exceptions\ClusterException;
 use Tinderbox\Clickhouse\Exceptions\ServerProviderException;
@@ -60,6 +60,36 @@ abstract class ClickhouseModel extends Model
         );
 
         return true;
+    }
+
+    /**
+     * Get relation names
+     *
+     * @return array
+     */
+    protected function getRelationNames() : array
+    {
+        $refl = new \ReflectionObject($this);
+        $names = [];
+
+        foreach ($refl->getMethods() as $method) {
+            if ($this->$method() instanceof ClickhouseExternalRelation) {
+                $names[] = $method;
+            }
+        }
+
+        return $names;
+    }
+
+    public function setRelationContent(string $relation_name, $content)
+    {
+        $relation_names = $this->getRelationNames();
+        
+    }
+
+    public function getRelationContent(string $relation_name)
+    {
+
     }
 
 }

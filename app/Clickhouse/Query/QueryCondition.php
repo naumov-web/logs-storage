@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Clickhouse;
+namespace App\Clickhouse\Query;
 
 /**
  * Class QueryCondition

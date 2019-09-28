@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Clickhouse;
+namespace App\Clickhouse\Adapter;
 
 use Tinderbox\Clickhouse\Client;
 use Tinderbox\Clickhouse\Cluster;

@@ -1,10 +1,11 @@
 <?php
 
 
-namespace App\Clickhouse;
+namespace App\Clickhouse\Query;
 
-use App\Models\ClickhouseModel;
-use Illuminate\Database\Eloquent\Relations\Relation;
+use App\Clickhouse\Adapter\ClickhouseAdapter;
+use App\Clickhouse\Model\ClickhouseExternalRelation;
+use App\Clickhouse\Model\ClickhouseModel;
 use Illuminate\Support\Collection;
 
 /**
@@ -203,7 +204,7 @@ class ClickhouseSelectQueryBuilder
     protected function loadRelation(Collection $items, string $relation_name) : void
     {
         /**
-         * @var ClickhouseExternalRelation
+         * @var $relation ClickhouseExternalRelation
          */
         $relation = $this->model->$relation_name();
         $field_name = $relation->getFieldName();
@@ -222,7 +223,7 @@ class ClickhouseSelectQueryBuilder
         }
 
         /**
-         * @var Collection
+         * @var $related_items Collection
          */
         $related_items = $class::query()->whereIn('id', $ids)->get();
         $this->related_models[$relation_name] = $related_items->toArray();
@@ -238,6 +239,9 @@ class ClickhouseSelectQueryBuilder
     {
         foreach ($items as $item) {
             foreach ($this->with as $relation_name) {
+                /**
+                 * @var $relation ClickhouseExternalRelation
+                 */
                 $relation = $item->$relation_name();
                 $field = $relation->getFieldName();
 
@@ -248,6 +252,8 @@ class ClickhouseSelectQueryBuilder
                 );
             }
         }
+
+        return $items;
     }
 
     /**
@@ -300,6 +306,7 @@ class ClickhouseSelectQueryBuilder
         }
 
         $this->loadRelations($result);
+        $result = $this->distributeRelatedModels($result);
 
         return $result;
     }

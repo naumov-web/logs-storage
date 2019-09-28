@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Clickhouse\ClickhouseExternalRelation;
+use App\Clickhouse\Model\ClickhouseExternalRelation;
+use App\Clickhouse\Model\ClickhouseModel;
 
 /**
  * Class Log
