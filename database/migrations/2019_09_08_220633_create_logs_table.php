@@ -1,6 +1,6 @@
 <?php
 
-use App\Clickhouse\ClickhouseAdapter;
+use App\Clickhouse\Adapter\ClickhouseAdapter;
 use Illuminate\Database\Migrations\Migration;
 
 /**
@@ -33,7 +33,7 @@ class CreateLogsTable extends Migration
     public function up()
     {
         $sql = '
-            CREATE TABLE logs
+            CREATE TABLE IF NOT EXISTS logs
             (
                 event_date Date,
                 event_time DateTime,

@@ -15,7 +15,7 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
-Route::get('/login', 'Auth\LoginController@form');
+Route::get('/login', 'Auth\LoginController@form')->name('login.form');
 Route::post('/login', 'Auth\LoginController@login')->name('login');
 
 Route::namespace('Web')->middleware('auth')->group(function () {

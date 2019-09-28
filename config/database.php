@@ -16,6 +16,7 @@ return [
     */
 
     'default' => env('DB_CONNECTION', 'mysql'),
+    'clickhouse_default' => env('DB_CLICKHOUSE_DEFAULT_CONNECTION', 'clickhouse'),
 
     /*
     |--------------------------------------------------------------------------
@@ -130,7 +131,7 @@ return [
             'driver' => 'clickhouse',
             'default_server' => env('DB_TESTING_CLICKHOUSE_DEFAULT_SERVER', 'default'),
             'default_cluster' => env('DB_TESTING_CLICKHOUSE_DEFAULT_CLUSTER', 'default'),
-            'cluster_name' => env('DB_TESTING_TESTING_CLICKHOUSE_CLUSTER_NAME', 'default'),
+            'cluster_name' => env('DB_TESTING_CLICKHOUSE_CLUSTER_NAME', 'default'),
             'servers' => [
                 [
                     'host' => env('DB_TESTING_CLICKHOUSE_HOST', 'localhost'),

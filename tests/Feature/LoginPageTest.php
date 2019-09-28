@@ -5,8 +5,14 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ExampleTest extends TestCase
+/**
+ * Class LoginPageTest
+ * @package Tests\Feature
+ */
+class LoginPageTest extends TestCase
 {
+
+    use RefreshDatabase;
     /**
      * A basic test example.
      *
@@ -14,7 +20,7 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
-        $response = $this->get('/');
+        $response = $this->get(route('login.form'));
 
         $response->assertStatus(200);
     }

@@ -42,7 +42,8 @@ class ClickhouseAdapter
      */
     public function __construct()
     {
-        $config = config('database.connections.clickhouse');
+        $connection_name = config('database.clickhouse_default');
+        $config = config('database.connections.' . $connection_name);
 
         $servers = [];
         foreach ($config['servers'] as $i => $server) {
