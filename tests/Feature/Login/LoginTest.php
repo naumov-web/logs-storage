@@ -1,24 +1,22 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Login;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Feature\BaseAccountTest;
 
 /**
- * Class LoginPageTest
+ * Class LoginTest
  * @package Tests\Feature
  */
-class LoginPageTest extends TestCase
+class LoginTest extends BaseAccountTest
 {
 
-    use RefreshDatabase;
     /**
      * A basic test example.
      *
      * @return void
      */
-    public function testBasicTest()
+    public function testRenderPage()
     {
         $response = $this->get(route('login.form'));
 
