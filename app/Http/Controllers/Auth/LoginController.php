@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\RedirectResponse as RedirectResponseAlias;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -29,7 +30,7 @@ class LoginController extends Controller
      * Authorize user
      *
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponseAlias|Redirector
      */
     public function login(Request $request)
     {
@@ -40,6 +41,6 @@ class LoginController extends Controller
         }
 
         flash('Неверный email или пароль!')->error();
-        return back();
+        return back($status = 401);
     }
 }
