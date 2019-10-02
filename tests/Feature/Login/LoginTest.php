@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Login;
 
+use Illuminate\Http\Response;
 use Tests\Feature\BaseAccountTest;
 
 /**
@@ -21,7 +22,8 @@ class LoginTest extends BaseAccountTest
     {
         $response = $this->get(route('login.form'));
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertSee('Авторизация');
     }
 
     /**
@@ -30,8 +32,40 @@ class LoginTest extends BaseAccountTest
      * @test
      * @return void
      */
-    public function testLoginFail() : void
+    public function testLoginFail()
     {
-        $this->prepareBeforeTests();
+        $this->createAdmin();
+
+        $response = $this->post(
+            route('login'),
+            [
+                'email' => $this->admin_data['email'],
+                'password' => '123'
+            ]
+        );
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+
+        $response = $this->post(
+            route('login'),
+            [
+                'email' => 'admin2@admin.com',
+                'password' => '123456'
+            ]
+        );
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * Test login action, when we are using valid credentials
+     *
+     * @test
+     * @return void
+     */
+    public function testLoginSuccess() : void
+    {
+        $this->createAdmin();
+
+        $response = $this->post(route('login'), $this->admin_data);
+        $response->assertStatus(302);
     }
 }

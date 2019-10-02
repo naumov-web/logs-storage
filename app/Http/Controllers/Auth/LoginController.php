@@ -41,6 +41,6 @@ class LoginController extends Controller
         }
 
         flash('Неверный email или пароль!')->error();
-        return back($status = 401);
+        return response()->view('login.login', [], 401);
     }
 }
