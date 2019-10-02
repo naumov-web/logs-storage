@@ -58,12 +58,12 @@ class CreateProjectTest extends AbstractProjectsTest
     {
         $this->prepareBeforeTests();
 
-        foreach ($this->projects_data as $projects_item) {
-            $this->post(route('projects.add'), $projects_item);
+        foreach ($this->test_items as $test_item) {
+            $this->post(route('projects.add'), $test_item);
 
             $this->assertDatabaseHas(
                 (new Project())->getTable(),
-                $projects_item
+                $test_item
             );
         }
     }
