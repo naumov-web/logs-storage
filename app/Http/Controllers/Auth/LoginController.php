@@ -43,4 +43,16 @@ class LoginController extends Controller
         flash('Неверный email или пароль!')->error();
         return response()->view('login.login', [], 401);
     }
+
+    /**
+     * Logout user
+     *
+     * @return RedirectResponseAlias|Redirector
+     */
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect(route('login.form'));
+    }
 }

@@ -30,6 +30,9 @@
                 <a href="{{ route('statistic.show') }}" class="btn btn-secondary">
                     Статистика
                 </a>
+                <a href="{{ route('logout') }}" class="btn btn-secondary">
+                    Выход
+                </a>
             </nav>
         </header>
         <div class="container authorized-container">
