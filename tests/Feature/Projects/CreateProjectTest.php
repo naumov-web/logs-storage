@@ -3,7 +3,6 @@
 namespace Tests\Feature\Projects;
 
 use App\Models\Project;
-use Illuminate\Http\Response;
 
 /**
  * Class СreateProjectTest
@@ -24,7 +23,7 @@ class CreateProjectTest extends AbstractProjectsTest
 
         $response = $this->get(route('projects.add-form'));
 
-        $response->assertStatus(200)
+        $response->assertOk()
             ->assertSee('Добавить проект')
             ->assertSee('Наименование проекта:')
             ->assertSee('URL-адрес проекта:')
