@@ -24,7 +24,23 @@ abstract class AbstractProjectsTest extends BaseAccountTest
         [
             'name' => 'Test project 2',
             'site_url' => 'http://test-project.com',
-        ]
+        ],
+        [
+            'name' => 'Test project 3',
+            'site_url' => 'http://test-project3.com',
+        ],
+        [
+            'name' => 'Test project 4',
+            'site_url' => 'http://test-project4.com',
+        ],
+        [
+            'name' => 'Test project 5',
+            'site_url' => 'http://test-project5.com',
+        ],
+        [
+            'name' => 'Test project 6',
+            'site_url' => 'http://test-project6.com',
+        ],
     ];
 
     /**

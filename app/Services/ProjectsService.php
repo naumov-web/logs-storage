@@ -69,4 +69,23 @@ class ProjectsService extends AbstractService
     {
         return parent::update($model, Arr::except($data, ['api_key']));
     }
+
+    /**
+     * Get projects list
+     *
+     * @param array $data
+     * @return array
+     */
+    public function index(array $data): array
+    {
+        return parent::index(
+            array_merge(
+                $data,
+                [
+                    'sort_by' => 'id',
+                    'sort_direction' => 'desc',
+                ]
+            )
+        );
+    }
 }

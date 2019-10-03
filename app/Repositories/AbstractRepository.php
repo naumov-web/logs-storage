@@ -67,7 +67,7 @@ abstract class AbstractRepository
         $class = $this->getModelClass();
 
         /**
-         * @var Builder
+         * @var $query Builder
          */
         $query = $class::query();
 
