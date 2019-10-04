@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Project
@@ -14,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Project extends Model
 {
+
+    use SoftDeletes;
 
     /**
      * The attributes that are not mass assignable.
