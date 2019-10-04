@@ -3,15 +3,24 @@
 namespace Tests\Feature\ProjectEventTypes;
 
 use App\Repositories\ProjectEventTypesRepository;
+use App\Repositories\ProjectsRepository;
 use App\Services\ProjectEventTypesService;
+use App\Services\ProjectsService;
 use Tests\Feature\BaseAccountTest;
 
 /**
  * Class AbstractProjectEventTypesTest
  * @package Tests\Feature\ProjectEventTypes
  */
-class AbstractProjectEventTypesTest extends BaseAccountTest
+abstract class AbstractProjectEventTypesTest extends BaseAccountTest
 {
+
+    /**
+     * Non existing project id
+     * @var int
+     */
+    public const NON_EXISTING_PROJECT_ID = 123;
+
     /**
      * Projects data for testing
      * @var array
@@ -69,6 +78,12 @@ class AbstractProjectEventTypesTest extends BaseAccountTest
     protected $project_event_types_service;
 
     /**
+     * Projects service instance
+     * @var ProjectsService
+     */
+    protected $projects_service;
+
+    /**
      * AbstractProjectEventTypesTest constructor.
      * @param null $name
      * @param array $data
@@ -81,6 +96,9 @@ class AbstractProjectEventTypesTest extends BaseAccountTest
         $this->project_event_types_service = new ProjectEventTypesService(
             new ProjectEventTypesRepository()
         );
+        $this->projects_service = new ProjectsService(
+            new ProjectsRepository()
+        );
     }
 
     /**
@@ -90,7 +108,11 @@ class AbstractProjectEventTypesTest extends BaseAccountTest
      */
     protected function createTestProjects() : void
     {
-
+        foreach ($this->test_projects as $test_project) {
+            $this->projects_service->store(
+                $test_project
+            );
+        }
     }
 
     /**
@@ -101,7 +123,7 @@ class AbstractProjectEventTypesTest extends BaseAccountTest
     protected function createTestItems() : void
     {
         $this->createTestProjects();
-        
+
         foreach ($this->test_items as $test_item) {
             $this->project_event_types_service->store($test_item);
         }
