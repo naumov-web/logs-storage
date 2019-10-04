@@ -55,7 +55,7 @@ class GetProjectsListTest extends AbstractProjectsTest
                 $response,
                 array_slice(
                     $this->test_items,
-                    count($this->test_items) - $i * $limit,
+                    count($this->test_items) - ($i + 1) * $limit,
                     $limit
                 )
             );
