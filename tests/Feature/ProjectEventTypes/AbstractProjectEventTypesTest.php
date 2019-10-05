@@ -2,10 +2,12 @@
 
 namespace Tests\Feature\ProjectEventTypes;
 
+use App\Models\Project;
 use App\Repositories\ProjectEventTypesRepository;
 use App\Repositories\ProjectsRepository;
 use App\Services\ProjectEventTypesService;
 use App\Services\ProjectsService;
+use Illuminate\Support\Arr;
 use Tests\Feature\BaseAccountTest;
 
 /**
@@ -125,7 +127,17 @@ abstract class AbstractProjectEventTypesTest extends BaseAccountTest
         $this->createTestProjects();
 
         foreach ($this->test_items as $test_item) {
-            $this->project_event_types_service->store($test_item);
+
+            $project = Project::where('name', $test_item['project']['name'])->first();
+
+            $this->project_event_types_service->store(
+                array_merge(
+                    Arr::except($test_item, ['project']),
+                    [
+                        'project_id' => $project->id,
+                    ]
+                )
+            );
         }
     }
 }

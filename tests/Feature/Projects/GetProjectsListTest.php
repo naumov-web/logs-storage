@@ -32,7 +32,7 @@ class GetProjectsListTest extends AbstractProjectsTest
     }
 
     /**
-     * Test render of page with projects list
+     * Test render of page with projects list and pagination
      *
      * @test
      * @return void
