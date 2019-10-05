@@ -23,23 +23,32 @@ class DeleteProjectTest extends AbstractProjectsTest
         $this->createTestItems();
 
         $project = Project::query()->where('name', $this->test_items[0]['name'])->first();
-
-        $this->get(route('projects.delete', ['project' => $project->id]))
-            ->assertStatus(302);
-
-        $this->assertSoftDeleted(
-            (new Project())->getTable(),
-            $this->test_items[0]
-        );
+        $this->checkDeleting($project, $this->test_items[0]);
 
         $project = Project::query()->where('name', end($this->test_items)['name'])->first();
+        $this->checkDeleting($project, end($this->test_items));
+    }
 
+    /**
+     * Check deleting of project
+     *
+     * @param Project $project
+     * @param array $origin_data
+     * @return void
+     */
+    protected function checkDeleting(Project $project, array $origin_data) : void
+    {
         $this->get(route('projects.delete', ['project' => $project->id]))
             ->assertStatus(302);
 
         $this->assertSoftDeleted(
             (new Project())->getTable(),
-            end($this->test_items)
+            array_merge(
+                $origin_data,
+                [
+                    'id' => $project->id,
+                ]
+            )
         );
     }
 

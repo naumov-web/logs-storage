@@ -146,4 +146,15 @@ abstract class AbstractProjectEventTypesTest extends BaseAccountTest
             );
         }
     }
+
+    /**
+     * Remove unused fields from item data
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function filterItemData(array $data) : array
+    {
+        return Arr::except($data, ['project']);
+    }
 }

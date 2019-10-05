@@ -104,6 +104,13 @@ class UpdateProjectEventTypeTest extends AbstractProjectEventTypesTest
         );
     }
 
+    /**
+     * Check valid submit
+     *
+     * @param ProjectEventType $event_type
+     * @param array $origin_data
+     * @return void
+     */
     protected function checkValidSubmit(ProjectEventType $event_type, array $origin_data) : void
     {
         $new_data = [];
@@ -123,16 +130,5 @@ class UpdateProjectEventTypeTest extends AbstractProjectEventTypesTest
                 ]
             )
         );
-    }
-
-    /**
-     * Remove unused fields from item data
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function filterItemData(array $data) : array
-    {
-        return Arr::except($data, ['project']);
     }
 }
