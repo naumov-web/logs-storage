@@ -76,7 +76,7 @@ class GetProjectEventTypesListTest extends AbstractProjectEventTypesTest
                         ]
                     )
                 );
-                
+
                 $this->checkResponse(
                     $response,
                     array_slice(

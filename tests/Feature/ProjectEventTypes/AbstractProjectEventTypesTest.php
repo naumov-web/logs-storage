@@ -24,6 +24,12 @@ abstract class AbstractProjectEventTypesTest extends BaseAccountTest
     public const NON_EXISTING_PROJECT_ID = 123;
 
     /**
+     * Non existing event id
+     * @var int
+     */
+    public const NON_EXISTING_EVENT_ID = 321;
+
+    /**
      * Projects data for testing
      * @var array
      */
