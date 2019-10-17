@@ -19,6 +19,8 @@ before_script:
   - php artisan migrate
 
 before_install:
+  - chmod +x ./deployment/travis/scripts/install_postgresql_11.sh
+  - ./deployment/travis/scripts/install_postgresql_11.sh
   - chmod +x ./deployment/travis/scripts/configure_postgresql.sh
   - ./deployment/travis/scripts/configure_postgresql.sh
 
@@ -28,6 +30,9 @@ script:
 services:
   - postgresql
   - rabbitmq
+
+addons:
+  postgresql: "11.3"
 
 branches:
   only:
