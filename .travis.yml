@@ -19,7 +19,8 @@ before_script:
   - php artisan migrate
 
 before_install:
-  - psql -c 'create database logs_testing;' -U postgres
+  - chmod +x ./deployment/travis/scripts/configure_postgresql.sh
+  - ./deployment/travis/scripts/install_clickhouse.sh
 
 script:
   - phpunit
