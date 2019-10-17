@@ -3,6 +3,12 @@ language: php
 php:
   - 7.2
 
+env:
+  - POSTGRES_USER=root
+  - POSTGRES_PASSWORD=password
+  - CLICKHOUSE_USER=local_user
+  - CLICKHOSUE_PASSWORD=password
+
 before_script:
   - chmod +x ./deployment/travis/scripts/install_clickhouse.sh
   - ./deployment/travis/scripts/install_clickhouse.sh
