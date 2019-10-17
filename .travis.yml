@@ -13,7 +13,7 @@ before_script:
   - ./deployment/travis/scripts/install_clickhouse.sh
   - chmod +x ./deployment/travis/scripts/configure_clickhouse.sh
   - ./deployment/travis/scripts/configure_clickhouse.sh
-  - cat /etc/clickhouse-server/config.xml
+  - sudo lsof -i :8123
   - cp .env.travis .env
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
