@@ -1,10 +1,31 @@
 language: php
+
 php:
   - 7.2
+
+before_script:
+  - ./deployment/travis/scripts/install_clickhouse.sh
+  - cp .env.travis .env
+  - composer self-update
+  - composer install --prefer-source --no-interaction --dev
+  - php artisan key:generate
+  - php artisan jwt:generate
+  - php artisan migrate
+
+before_install:
+  - psql -c 'create database logs_testing;' -U postgres
+
+script:
+  - phpunit
+
 services:
-  - mysql
+  - postgresql
   - rabbitmq
+
 branches:
   only:
     - master
     - develop
+
+notifications:
+  email: false
