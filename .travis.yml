@@ -20,7 +20,7 @@ before_script:
 
 before_install:
   - chmod +x ./deployment/travis/scripts/configure_postgresql.sh
-  - ./deployment/travis/scripts/install_clickhouse.sh
+  - ./deployment/travis/scripts/configure_postgresql.sh
 
 script:
   - phpunit
